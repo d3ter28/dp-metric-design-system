@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DP Metric — Predictive Hull &amp; Propeller Maintenance</title>
+  <meta name="description" content="DP Metric turns voyage data into a precise hull fouling forecast. Clean on condition, not the calendar — before speed loss becomes fuel loss. No new hardware required.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://dpmetric.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dpmetric.io/">
+  <meta property="og:title" content="DP Metric — Clean on condition, not on the calendar.">
+  <meta property="og:description" content="Predictive hull &amp; propeller maintenance for ship operators. VTI tracking, 41-day forecast horizon, CII compliance — priced for smaller fleets.">
+  <meta property="og:site_name" content="DP Metric">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DP Metric — Predictive Hull Maintenance">
+  <meta name="twitter:description" content="Turn voyage data into a precise fouling forecast. Clean when the hull needs it, not when the schedule says so.">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"DP Metric","description":"Predictive hull and propeller maintenance platform for ship operators. ML-powered VTI tracking, fouling forecasts, and CII compliance monitoring.","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","availability":"https://schema.org/InStock"},"publisher":{"@type":"Organization","name":"DP Metric","url":"https://dpmetric.io"}}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #0A1A2E; color: #fff; font-family: 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; cursor: pointer; }
+    img, svg { display: block; }
+
+    @keyframes sonar-breathe { 0%, 100% { opacity: 0.18; } 50% { opacity: 0.09; } }
+    @keyframes pulse-line { 0%, 100% { opacity: 0.45; } 50% { opacity: 0.7; } }
+
+    /* Scroll reveal — Rise (fade-up) by default */
+    .anim-on .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+    .anim-on .reveal.is-in { opacity: 1; transform: none; }
+    .anim-on.eff-fade  .reveal { transform: none; }
+    .anim-on.eff-left  .reveal { transform: translateX(-34px); }
+    .anim-on.eff-scale .reveal { transform: scale(0.955); }
+    .anim-on.eff-scale .reveal.is-in { transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; transform: none !important; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+    /* How it works hover */
+    .hiw-step { transition: none; }
+    .hiw-num { transition: color .3s ease, text-shadow .3s ease; }
+    .hiw-step:hover .hiw-num, .hiw-step:focus-visible .hiw-num {
+      color: #12AEBD !important;
+      text-shadow: 0 0 28px rgba(18,174,189,0.55);
+    }
+
+    /* Contact form */
+    .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus {
+      border-color: #12AEBD !important;
+      box-shadow: 0 0 0 3px rgba(18,174,189,0.18);
+    }
+    .contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(255,255,255,0.28); }
+    .contact-form .cf-submit:hover { background: #15C3D4 !important; }
+
+    @media (max-width: 900px) {
+      .cta-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .pricing-grid { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 860px) {
+      .nav-links { display: none !important; }
+      .nav-mobile { display: flex !important; }
+      .nav-inner { padding: 0 20px !important; }
+      .sec-pad  { padding-left: 20px !important; padding-right: 20px !important; }
+      .container { padding-left: 20px !important; padding-right: 20px !important; }
+      .hero-text { max-width: 100% !important; }
+      .hero-ctarow { justify-content: flex-start !important; }
+      .mockup-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 14px; }
+      .mockup-inner { min-width: 680px; }
+      .stats-grid { grid-template-columns: 1fr 1fr !important; }
+      .stats-grid > *:nth-child(even) { border-right: none !important; }
+      .stats-grid > *:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,0.06) !important; }
+      .cap-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .split-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .hiw-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .console-shell { overflow-x: auto; }
+      .footer-inner { flex-direction: column !important; align-items: flex-start !important; gap: 20px !important; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr !important; }
+      .stats-grid > * { border-right: none !important; border-top: 1px solid rgba(255,255,255,0.06) !important; }
+      .stats-grid > *:first-child { border-top: none !important; }
+      .hero-ctarow a { width: 100%; justify-content: center !important; }
+      .cta-btns { flex-direction: column !important; width: 100%; }
+      .cta-btns a { justify-content: center !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav aria-label="Main navigation" style="position: sticky; top: 0; z-index: 100; background: rgba(10,26,46,0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.07);">
+  <div class="nav-inner" style="max-width: 1280px; margin: 0 auto; height: 64px; display: flex; align-items: center; padding: 0 48px; gap: 32px;">
+    <a href="/" aria-label="DP Metric home" style="flex-shrink: 0;">
+      <svg width="148" height="34" viewBox="0 0 208 48" fill="none" role="img" aria-label="DP Metric">
+        <path d="M6 29 H42 L38 36 Q37 38.5 34.5 38.5 H13.5 Q11 38.5 10 36 Z" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
+        <polyline points="5,22 18,22 21,22 23,15 26,27 28,22 43,22" stroke="#12AEBD" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="58" y="31" font-family="Space Grotesk,sans-serif" font-size="22" font-weight="700" letter-spacing="-0.01em" fill="white">DP</text>
+        <text x="92" y="31" font-family="Space Grotesk,sans-serif" font-size="22" font-weight="400" letter-spacing="0.01em" fill="rgba(255,255,255,0.55)">Metric</text>
+      </svg>
+    </a>
+    <div class="nav-links" style="display: flex; gap: 28px; margin-left: auto; align-items: center;">
+      <a href="#product" style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55);">Product</a>
+      <a href="#how-it-works" style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55);">How it works</a>
+      <a href="#pricing" style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55);">Pricing</a>
+      <a href="/blog" style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55);">Blog</a>
+      <a href="#about" style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55);">About</a>
+      <a href="#demo" style="background: #12AEBD; color: white; padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;">Request a demo</a>
+    </div>
+    <!-- Mobile CTA only -->
+    <a href="#demo" class="nav-mobile" style="display: none; margin-left: auto; background: #12AEBD; color: white; padding: 8px 18px; border-radius: 8px; font-size: 14px; font-weight: 600;">Demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<main class="anim-on eff-up">
+<section aria-labelledby="hero-heading" class="sec-pad hero-section" style="position: relative; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; padding: 96px 48px;">
+  <div aria-hidden="true" style="position: absolute; inset: 0; background-image: url('assets/hero-ship.jpg'); background-size: 135%; background-position: 10% center; background-repeat: no-repeat; background-color: #0c2438;"></div>
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(115deg, #0A1A2E 0%, #0F2A45 55%, #14506b 100%); z-index: -1;"></div>
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(90deg, #0A1A2E 0%, rgba(10,26,46,0.92) 28%, rgba(10,26,46,0.55) 52%, rgba(10,26,46,0.12) 78%, rgba(10,26,46,0) 100%);"></div>
+  <div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 0; height: 160px; background: linear-gradient(180deg, rgba(10,26,46,0) 0%, #0A1A2E 100%);"></div>
+  <!-- Sonar sweep -->
+  <svg aria-hidden="true" style="position: absolute; left: 0; bottom: 0; width: 60%; height: 90%; pointer-events: none; opacity: 0.5;" viewBox="0 0 720 760" preserveAspectRatio="xMinYMax slice">
+    <g stroke="#3FC6D2" fill="none" style="animation: sonar-breathe 5s ease-in-out infinite;">
+      <circle cx="120" cy="720" r="130"/>
+      <circle cx="120" cy="720" r="280"/>
+      <circle cx="120" cy="720" r="440"/>
+      <circle cx="120" cy="720" r="610"/>
+    </g>
+  </svg>
+
+  <div class="container" style="position: relative; max-width: 1280px; margin: 0 auto; width: 100%;">
+    <div class="hero-text" style="max-width: 620px; text-align: left;">
+      <div role="text" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(18,174,189,0.12); border: 1px solid rgba(18,174,189,0.26); border-radius: 999px; padding: 5px 14px; margin-bottom: 32px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #12AEBD; display: inline-block; flex-shrink: 0;"></span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #3FC6D2; text-transform: uppercase;">Predictive hull &amp; propeller maintenance</span>
+      </div>
+      <h1 id="hero-heading" style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(40px, 5.5vw, 72px); font-weight: 700; line-height: 1.05; letter-spacing: -0.028em; color: white; margin-bottom: 24px;">Clean on condition,<br>not on the calendar.</h1>
+      <p style="font-size: clamp(16px, 2vw, 19px); line-height: 1.65; color: rgba(255,255,255,0.62); max-width: 480px; margin: 0 0 40px;">DP Metric turns your voyage data into a precise fouling forecast — so you clean when the hull needs it, not when the schedule says so.</p>
+      <div class="hero-ctarow" style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="#demo" style="display: inline-flex; align-items: center; background: #12AEBD; color: white; padding: 14px 30px; border-radius: 8px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em;">Request a demo</a>
+        <a href="#how-it-works" style="display: inline-flex; align-items: center; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: white; padding: 14px 30px; border-radius: 8px; font-size: 15px; font-weight: 500; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">See how it works</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS RIBBON -->
+<section aria-label="Key metrics" style="border-top: 1px solid rgba(255,255,255,0.06); background: #0F2440;">
+  <div class="stats-grid container reveal" style="max-width: 1280px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: repeat(4,1fr);">
+    <div style="padding: 36px 28px; border-right: 1px solid rgba(255,255,255,0.06);">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 40px; font-weight: 500; color: white; letter-spacing: -0.03em; line-height: 1;">~<span class="stat-num" data-to="40">0</span><span style="font-size: 40px; line-height: 1; color: #12AEBD; margin-left: 2px;">%</span></div>
+      <p style="font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 8px; line-height: 1.5;">extra fuel from heavy fouling — condition-based cleaning eliminates the waste</p>
+    </div>
+    <div style="padding: 36px 28px; border-right: 1px solid rgba(255,255,255,0.06);">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 40px; font-weight: 500; color: white; letter-spacing: -0.03em; line-height: 1;"><span class="stat-num" data-to="41">0</span><span style="font-size: 22px; color: #12AEBD; margin-left: 2px;"> d</span></div>
+      <p style="font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 8px; line-height: 1.5;">average forecast horizon — plan port calls before speed loss compounds</p>
+    </div>
+    <div style="padding: 36px 28px; border-right: 1px solid rgba(255,255,255,0.06);">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 40px; font-weight: 500; color: white; letter-spacing: -0.03em; line-height: 1;"><span class="stat-num" data-to="0.88" data-dec="2">0.00</span></div>
+      <p style="font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 8px; line-height: 1.5;">average forecast confidence on condition-triggered cleaning alerts</p>
+    </div>
+    <div style="padding: 36px 28px;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 40px; font-weight: 500; color: white; letter-spacing: -0.03em; line-height: 1;">0 <span style="font-size: 18px; color: rgba(255,255,255,0.35);">new hardware</span></div>
+      <p style="font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 8px; line-height: 1.5;">runs on AIS and voyage report data you already have on board</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOULING DETECTION -->
+<section id="fouling" aria-labelledby="fouling-heading" class="sec-pad" style="padding: 100px 48px;">
+  <div class="container" style="max-width: 1280px; margin: 0 auto;">
+    <div class="split-grid reveal" style="display: grid; grid-template-columns: 0.88fr 1.12fr; gap: 64px; align-items: center;">
+      <header>
+        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: #12AEBD; text-transform: uppercase; margin-bottom: 14px;">Fouling detection</p>
+        <h2 id="fouling-heading" style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 3.5vw, 46px); font-weight: 700; line-height: 1.08; letter-spacing: -0.025em; color: white;">ML that catches fouling before your fuel bill does</h2>
+        <p style="font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.52); max-width: 460px; margin-top: 22px;">Our model ingests shaft power, RPM, speed through water, and weather data to detect the statistical signature of hull fouling, often 2–4 weeks before degradation shows in aggregate metrics. Time enough to plan cleaning at the next port call, not the next dry-dock.</p>
+        <ul style="list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px;">
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; background: rgba(255,255,255,0.03);">Random forest</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; background: rgba(255,255,255,0.03);">LSTM</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; background: rgba(255,255,255,0.03);">Change-point detection</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; background: rgba(255,255,255,0.03);">Weather normalized</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; background: rgba(255,255,255,0.03);">ISO 19030</li>
+        </ul>
+      </header>
+
+      <figure style="margin: 0; border: 1px solid rgba(255,255,255,0.09); border-radius: 16px; background: #0B1E38; box-shadow: 0 40px 80px -28px rgba(0,0,0,0.6); padding: 28px 30px 24px;">
+        <figcaption style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.42); margin-bottom: 18px;">Shaft power ratio · voyage timeline</figcaption>
+        <svg viewBox="0 0 600 300" width="100%" height="auto" role="img" aria-label="Shaft power ratio rising above clean-hull baseline, fouling detected at day 61" style="display: block;">
+          <defs>
+            <linearGradient id="foulFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(232,156,18,0.22)"/>
+              <stop offset="100%" stop-color="rgba(232,156,18,0)"/>
+            </linearGradient>
+          </defs>
+          <text x="34" y="98" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="13" fill="rgba(255,255,255,0.4)">1.05</text>
+          <text x="34" y="202" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="13" fill="rgba(255,255,255,0.4)">1.00</text>
+          <rect x="396" y="40" width="180" height="220" fill="url(#foulFill)"/>
+          <line x1="48" y1="197" x2="576" y2="197" stroke="#3FC6D2" stroke-width="2" stroke-dasharray="7 6" opacity="0.8"/>
+          <line x1="396" y1="48" x2="396" y2="260" stroke="#E89C12" stroke-width="2" stroke-dasharray="5 5"/>
+          <path d="M48,200 C150,198 280,196 396,193 C470,191 520,150 576,78" fill="none" stroke="#E89C12" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="396" cy="193" r="9" fill="rgba(232,156,18,0.25)"/>
+          <circle cx="396" cy="193" r="5" fill="#E89C12" stroke="#0B1E38" stroke-width="1.5"/>
+          <text x="406" y="68" font-family="'IBM Plex Mono',monospace" font-size="13" font-weight="500" letter-spacing="0.06em" fill="#E89C12">DETECTED</text>
+          <text x="406" y="86" font-family="'IBM Plex Mono',monospace" font-size="12" fill="rgba(255,255,255,0.45)">Day 61</text>
+        </svg>
+        <div style="display: flex; gap: 28px; align-items: center; margin-top: 14px; padding-left: 8px;">
+          <span style="display: inline-flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.55);"><span style="width: 18px; height: 2.5px; background: #E89C12; border-radius: 2px;"></span>Power ratio</span>
+          <span style="display: inline-flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.55);"><span style="width: 18px; height: 0; border-top: 2.5px dashed #3FC6D2;"></span>Baseline</span>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- VESSEL TECHNICAL INDEX -->
+<section id="vti" aria-labelledby="vti-heading" class="sec-pad" style="padding: 100px 48px;">
+  <div class="container" style="max-width: 1280px; margin: 0 auto;">
+    <div class="split-grid reveal" style="display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center;">
+      <figure style="margin: 0; border: 1px solid rgba(255,255,255,0.09); border-radius: 16px; background: #0B1E38; box-shadow: 0 40px 80px -28px rgba(0,0,0,0.6); padding: 40px 36px 36px;">
+        <svg viewBox="0 0 400 268" width="100%" height="auto" role="img" aria-label="VTI score 87 out of 100, good condition" style="display: block;">
+          <defs>
+            <linearGradient id="vtiArc" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#0C95A3"/>
+              <stop offset="60%" stop-color="#12AEBD"/>
+              <stop offset="100%" stop-color="#3FC6D2"/>
+            </linearGradient>
+          </defs>
+          <path d="M40,206 A160,160 0 0 1 360,206" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="22" stroke-linecap="round"/>
+          <path d="M40,206 A160,160 0 0 1 346.8,142.5" fill="none" stroke="url(#vtiArc)" stroke-width="22" stroke-linecap="round"/>
+          <text x="40" y="232" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="13" fill="rgba(255,255,255,0.4)">0</text>
+          <text x="200" y="44" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="13" fill="rgba(255,255,255,0.4)">50</text>
+          <text x="360" y="232" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="13" fill="rgba(255,255,255,0.4)">100</text>
+          <line x1="200" y1="206" x2="346.8" y2="142.5" stroke="#E89C12" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="200" cy="206" r="11" fill="#0B1E38" stroke="#E89C12" stroke-width="3"/>
+          <text x="200" y="168" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="74" font-weight="700" letter-spacing="-0.02em" fill="white">87</text>
+          <text x="200" y="194" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="14" letter-spacing="0.14em" fill="rgba(255,255,255,0.5)">VTI SCORE</text>
+        </svg>
+        <div style="display: flex; justify-content: center; margin-top: -6px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.08em; color: #3FC6D2; padding: 10px 26px; border: 1px solid rgba(18,174,189,0.4); border-radius: 8px; background: rgba(18,174,189,0.06);">GOOD CONDITION</span>
+        </div>
+      </figure>
+
+      <header>
+        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: #12AEBD; text-transform: uppercase; margin-bottom: 14px;">Vessel technical index</p>
+        <h2 id="vti-heading" style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 3.5vw, 46px); font-weight: 700; line-height: 1.08; letter-spacing: -0.025em; color: white;">A standardized score for every hull in your fleet</h2>
+        <p style="font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.52); max-width: 460px; margin-top: 22px;">The VTI separates hull performance from propeller efficiency, applies weather and sea-state corrections, and produces a single comparable score per vessel. Track performance across voyages, benchmark vessels against each other, and make data-driven cleaning decisions with a number you can act on.</p>
+        <ul style="list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px;">
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; background: rgba(255,255,255,0.03);">ISO 19030</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; background: rgba(255,255,255,0.03);">Hull / propeller separated</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; background: rgba(255,255,255,0.03);">Weather corrected</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; background: rgba(255,255,255,0.03);">Fleet benchmarking</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; background: rgba(255,255,255,0.03);">EEDI reference</li>
+        </ul>
+      </header>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES / CONSOLE CAROUSEL -->
+<section id="product" aria-labelledby="features-heading" class="sec-pad" style="padding: 100px 48px;">
+  <div class="container" style="max-width: 1280px; margin: 0 auto;">
+    <div class="cap-grid reveal" style="display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 64px; align-items: center;">
+      <header>
+        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: #12AEBD; text-transform: uppercase; margin-bottom: 14px;">Digital twin dashboard</p>
+        <h2 id="features-heading" style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 3.5vw, 46px); font-weight: 700; line-height: 1.08; letter-spacing: -0.025em; color: white;">Your entire fleet's performance, continuously</h2>
+        <p style="font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.52); max-width: 420px; margin-top: 22px;">A real-time digital twin tracks every vessel: Speed loss, Excess Power, CII Rating. Fleet managers see a single view of operational efficiency across all vessels, with precise alerts when a hull needs attention, not when the schedule says so.</p>
+        <ul style="list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px;">
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; background: rgba(255,255,255,0.03);">Real-time KPIs</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; background: rgba(255,255,255,0.03);">Fleet overview</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; background: rgba(255,255,255,0.03);">Maintenance scheduling</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; background: rgba(255,255,255,0.03);">IMO CII integration</li>
+          <li style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 8px 14px; border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; background: rgba(255,255,255,0.03);">Multi-vessel</li>
+        </ul>
+      </header>
+
+      <!-- Console carousel -->
+      <div class="console-shell" role="group" aria-roledescription="carousel" aria-label="DP Metric console — live screens">
+        <div class="console-frame" style="position: relative; border: 1px solid rgba(255,255,255,0.09); border-radius: 16px; overflow: hidden; background: #0B1E38; box-shadow: 0 40px 80px -28px rgba(0,0,0,0.65);">
+          <div class="console-viewport" style="position: relative; width: 100%; aspect-ratio: 1320 / 760; overflow: hidden; background: #0B1E38;">
+            <iframe class="console-iframe" title="DP Metric console" src="console_ui_kit/index.html" scrolling="no" style="position: absolute; top: 0; left: 0; width: 1320px; height: 760px; border: 0; transform-origin: top left;"></iframe>
+          </div>
+        </div>
+        <div class="console-nav" style="display: flex; align-items: center; justify-content: center; gap: 22px; margin-top: 20px;">
+          <button type="button" class="cnav-arrow" data-dir="-1" aria-label="Previous screen" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.85); cursor: pointer; transition: background .2s ease, border-color .2s ease;">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="console-dots" role="tablist" aria-label="Choose screen" style="display: flex; align-items: center; gap: 11px;"></div>
+          <button type="button" class="cnav-play" aria-label="Pause auto-advance" aria-pressed="true" style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: none; background: transparent; color: rgba(255,255,255,0.8); cursor: pointer; padding: 0;">
+            <svg class="ic-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+            <svg class="ic-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button type="button" class="cnav-arrow" data-dir="1" aria-label="Next screen" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.85); cursor: pointer; transition: background .2s ease, border-color .2s ease;">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" aria-labelledby="hiw-heading" class="sec-pad" style="padding: 100px 48px; background: #0F2440; border-top: 1px solid rgba(255,255,255,0.06);">
+  <div class="container" style="max-width: 1280px; margin: 0 auto;">
+    <header class="reveal" style="margin-bottom: 72px; max-width: 760px;">
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: #12AEBD; text-transform: uppercase; margin-bottom: 16px;">How it works</p>
+      <h2 id="hiw-heading" style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(30px, 4vw, 56px); font-weight: 700; line-height: 1.04; letter-spacing: -0.025em; color: white;">From raw sensor data to fouling alert</h2>
+    </header>
+    <ol class="hiw-grid reveal" style="display: grid; grid-template-columns: repeat(4,1fr); gap: 0; list-style: none;">
+      <li class="hiw-step" tabindex="0" style="padding: 0 36px 0 0; outline: none;">
+        <div class="hiw-num" aria-hidden="true" style="font-family: 'Space Grotesk', sans-serif; font-size: 60px; font-weight: 700; color: rgba(255,255,255,0.14); line-height: 1; margin-bottom: 48px;">01</div>
+        <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 600; color: white; margin-bottom: 14px;">Ingest</h3>
+        <p style="font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.48);">Connect onboard sensors or upload voyage logs. DP Metric accepts shaft power, RPM, speed through water, draft, trim, and position data from standard maritime data formats.</p>
+      </li>
+      <li class="hiw-step" tabindex="0" style="padding: 0 36px; border-left: 1px solid rgba(255,255,255,0.08); outline: none;">
+        <div class="hiw-num" aria-hidden="true" style="font-family: 'Space Grotesk', sans-serif; font-size: 60px; font-weight: 700; color: rgba(255,255,255,0.14); line-height: 1; margin-bottom: 48px;">02</div>
+        <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 600; color: white; margin-bottom: 14px;">Process</h3>
+        <p style="font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.48);">Automated cleaning, outlier removal, quasi-steady-state filtering, and ERA5 hindcast weather interpolation. Draft and trim corrections applied.</p>
+      </li>
+      <li class="hiw-step" tabindex="0" style="padding: 0 36px; border-left: 1px solid rgba(255,255,255,0.08); outline: none;">
+        <div class="hiw-num" aria-hidden="true" style="font-family: 'Space Grotesk', sans-serif; font-size: 60px; font-weight: 700; color: rgba(255,255,255,0.14); line-height: 1; margin-bottom: 48px;">03</div>
+        <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 600; color: white; margin-bottom: 14px;">Analyze</h3>
+        <p style="font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.48);">The ML fouling model and VTI calculation run on cleaned data. Change-point detection identifies the precise onset of degradation. The digital twin updates in real time across your fleet.</p>
+      </li>
+      <li class="hiw-step" tabindex="0" style="padding: 0 36px; border-left: 1px solid rgba(255,255,255,0.08); outline: none;">
+        <div class="hiw-num" aria-hidden="true" style="font-family: 'Space Grotesk', sans-serif; font-size: 60px; font-weight: 700; color: rgba(255,255,255,0.14); line-height: 1; margin-bottom: 48px;">04</div>
+        <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 600; color: white; margin-bottom: 14px;">Alert</h3>
+        <p style="font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.48);">When fouling onset is detected, your fleet manager is alerted with estimated fuel excess, days since degradation began, and a recommended action window ahead of the next port call.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" aria-labelledby="pricing-heading" class="sec-pad" style="padding: 100px 48px; border-top: 1px solid rgba(255,255,255,0.06);">
+  <div class="container" style="max-width: 1280px; margin: 0 auto;">
+    <header style="margin-bottom: 64px; max-width: 620px;">
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: #12AEBD; text-transform: uppercase; margin-bottom: 16px;">Pricing</p>
+      <h2 id="pricing-heading" style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(30px, 4vw, 52px); font-weight: 700; line-height: 1.05; letter-spacing: -0.025em; color: white;">Priced per vessel. No hardware, no enterprise contract.</h2>
+      <p style="font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.5); margin-top: 18px;">Start with a single vessel or your whole fleet. Every plan includes weather-normalised VTI, fouling forecasts, and live CII monitoring.</p>
+    </header>
+
+    <div class="pricing-grid reveal" style="display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; overflow: hidden;">
+      <!-- Starter -->
+      <article style="background: #0F2440; padding: 40px 34px; display: flex; flex-direction: column;">
+        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 18px;">Starter</p>
+        <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px;">
+          <span style="font-family: 'Space Grotesk', sans-serif; font-size: 46px; font-weight: 700; color: white; letter-spacing: -0.03em;">$390</span>
+          <span style="font-size: 14px; color: rgba(255,255,255,0.45);">/ vessel / mo</span>
+        </div>
+        <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.5); margin-bottom: 28px;">For owner-operators running one to five vessels.</p>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 13px; margin-bottom: 32px;">
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>Weather-normalised VTI</li>
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>41-day fouling forecast</li>
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>Email cleaning alerts</li>
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>AIS &amp; voyage-report ingest</li>
+        </ul>
+        <a href="#demo" style="margin-top: auto; display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16); color: white; padding: 13px 24px; border-radius: 8px; font-size: 15px; font-weight: 600;">Start with Starter</a>
+      </article>
+
+      <!-- Fleet (featured) -->
+      <article style="background: #0F2440; padding: 40px 34px; display: flex; flex-direction: column; position: relative; box-shadow: inset 0 0 0 1.5px #12AEBD;">
+        <span style="position: absolute; top: 20px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #0A1A2E; background: #12AEBD; padding: 4px 10px; border-radius: 999px;">Most popular</span>
+        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3FC6D2; margin-bottom: 18px;">Fleet</p>
+        <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px;">
+          <span style="font-family: 'Space Grotesk', sans-serif; font-size: 46px; font-weight: 700; color: white; letter-spacing: -0.03em;">$290</span>
+          <span style="font-size: 14px; color: rgba(255,255,255,0.45);">/ vessel / mo</span>
+        </div>
+        <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.5); margin-bottom: 28px;">For fleets of six or more. Volume pricing per hull.</p>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 13px; margin-bottom: 32px;">
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.78); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>Everything in Starter</li>
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.78); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>Fleet ranking by cleaning urgency</li>
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.78); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>Live CII band monitoring</li>
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.78); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>Scheduled reports &amp; CSV export</li>
+        </ul>
+        <a href="#demo" style="margin-top: auto; display: inline-flex; align-items: center; justify-content: center; background: #12AEBD; color: white; padding: 13px 24px; border-radius: 8px; font-size: 15px; font-weight: 600;">Request a demo</a>
+      </article>
+
+      <!-- Enterprise -->
+      <article style="background: #0F2440; padding: 40px 34px; display: flex; flex-direction: column;">
+        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 18px;">Enterprise</p>
+        <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px;">
+          <span style="font-family: 'Space Grotesk', sans-serif; font-size: 46px; font-weight: 700; color: white; letter-spacing: -0.03em;">Custom</span>
+        </div>
+        <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.5); margin-bottom: 28px;">For large operators with integration and SLA needs.</p>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 13px; margin-bottom: 32px;">
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>Everything in Fleet</li>
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>API &amp; fleet-management integration</li>
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>Dedicated success engineer</li>
+          <li style="display: flex; gap: 11px; font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.5;"><svg width="17" height="17" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>SSO, audit log &amp; SLA</li>
+        </ul>
+        <a href="#demo" style="margin-top: auto; display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16); color: white; padding: 13px 24px; border-radius: 8px; font-size: 15px; font-weight: 600;">Talk to sales</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CTA + CONTACT -->
+<section id="demo" aria-labelledby="cta-heading" class="sec-pad" style="padding: 100px 48px; border-top: 1px solid rgba(255,255,255,0.06);">
+  <div class="cta-grid container reveal" style="max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start;">
+    <div style="max-width: 520px;">
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: #12AEBD; text-transform: uppercase; margin-bottom: 16px;">Request a demo</p>
+      <h2 id="cta-heading" style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 3vw, 48px); font-weight: 700; color: white; line-height: 1.06; letter-spacing: -0.025em; margin-bottom: 18px;">Ready to clean on condition?</h2>
+      <p style="font-size: 16px; color: rgba(255,255,255,0.5); line-height: 1.65; margin-bottom: 32px;">DP Metric is priced for smaller fleets. No enterprise contracts, no hardware rollout. Connect your data and see your fleet health in days.</p>
+      <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px;">
+        <li style="display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(255,255,255,0.62);"><svg width="18" height="18" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>Live fleet health in days, not months</li>
+        <li style="display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(255,255,255,0.62);"><svg width="18" height="18" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>No new hardware on the vessel</li>
+        <li style="display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(255,255,255,0.62);"><svg width="18" height="18" viewBox="0 0 24 24" stroke="#12AEBD" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>A specialist replies within one business day</li>
+      </ul>
+    </div>
+
+    <form class="contact-form" novalidate aria-label="Request a demo" style="background: #0F2440; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 36px; box-shadow: 0 40px 80px -28px rgba(0,0,0,0.55);">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px;">
+        <label style="display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Name</span>
+          <input type="text" name="name" required autocomplete="name" placeholder="Jane Mariner" style="font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; color: white; background: #0A1A2E; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 12px 14px; outline: none; transition: border-color .2s ease, box-shadow .2s ease;">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Company</span>
+          <input type="text" name="company" autocomplete="organization" placeholder="Fleet operator" style="font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; color: white; background: #0A1A2E; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 12px 14px; outline: none; transition: border-color .2s ease, box-shadow .2s ease;">
+        </label>
+      </div>
+      <label style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Work email</span>
+        <input type="email" name="email" required autocomplete="email" placeholder="jane@operator.com" style="font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; color: white; background: #0A1A2E; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 12px 14px; outline: none; transition: border-color .2s ease, box-shadow .2s ease;">
+      </label>
+      <label style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Fleet size</span>
+        <select name="fleet" style="font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; color: white; background: #0A1A2E; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 12px 14px; outline: none; transition: border-color .2s ease, box-shadow .2s ease; appearance: none;">
+          <option>1–5 vessels</option>
+          <option>6–20 vessels</option>
+          <option>21–50 vessels</option>
+          <option>50+ vessels</option>
+        </select>
+      </label>
+      <label style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.5);">What are you hoping to solve?</span>
+        <textarea name="message" rows="3" placeholder="Tell us about your fleet and goals…" style="font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; color: white; background: #0A1A2E; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 12px 14px; outline: none; resize: vertical; transition: border-color .2s ease, box-shadow .2s ease;"></textarea>
+      </label>
+      <button type="submit" class="cf-submit" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #12AEBD; color: white; padding: 15px 32px; border: none; border-radius: 8px; font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: background .2s ease;">Request a demo</button>
+      <p class="cf-success" role="status" aria-live="polite" hidden style="display: none; align-items: center; gap: 10px; margin-top: 18px; font-size: 14px; color: #3FC6D2;"><svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Thanks — a specialist will be in touch within one business day.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer style="background: #061320; border-top: 1px solid rgba(255,255,255,0.06); padding: 40px 48px;">
+  <div class="footer-inner container" style="max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+    <a href="/" aria-label="DP Metric home">
+      <svg width="100" height="23" viewBox="0 0 208 48" fill="none"><path d="M6 29 H42 L38 36 Q37 38.5 34.5 38.5 H13.5 Q11 38.5 10 36 Z" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" stroke-linejoin="round" fill="none"/><polyline points="5,22 18,22 21,22 23,15 26,27 28,22 43,22" stroke="#12AEBD" stroke-width="2" stroke-linecap="round" fill="none"/><text x="58" y="31" font-family="Space Grotesk,sans-serif" font-size="22" font-weight="700" fill="rgba(255,255,255,0.65)">DP</text><text x="92" y="31" font-family="Space Grotesk,sans-serif" font-size="22" font-weight="400" fill="rgba(255,255,255,0.3)">Metric</text></svg>
+    </a>
+    <nav aria-label="Footer navigation" style="display: flex; gap: 24px; flex-wrap: wrap;">
+      <a href="#product" style="font-size: 13px; color: rgba(255,255,255,0.35);">Product</a>
+      <a href="#how-it-works" style="font-size: 13px; color: rgba(255,255,255,0.35);">How it works</a>
+      <a href="#pricing" style="font-size: 13px; color: rgba(255,255,255,0.35);">Pricing</a>
+      <a href="/blog" style="font-size: 13px; color: rgba(255,255,255,0.35);">Blog</a>
+      <a href="#about" style="font-size: 13px; color: rgba(255,255,255,0.35);">About</a>
+      <a href="#" style="font-size: 13px; color: rgba(255,255,255,0.35);">Privacy</a>
+    </nav>
+    <small style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.2);">© 2025 DP Metric</small>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1. Scroll reveal (Rise / fade-up)
+  const reveals = Array.from(document.querySelectorAll('.reveal'));
+  if (reveals.length) {
+    if (reduce) {
+      reveals.forEach(el => el.classList.add('is-in'));
+    } else {
+      let pending = reveals.slice();
+      const check = () => {
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        pending = pending.filter(el => {
+          const r = el.getBoundingClientRect();
+          if (r.top < vh * 0.92 && r.bottom > 0) { el.classList.add('is-in'); return false; }
+          return true;
+        });
+        if (!pending.length) {
+          window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('resize', onScroll);
+        }
+      };
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { ticking = false; check(); });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      check();
+    }
+  }
+
+  // 2. Stat count-up
+  const fmt = (v, dec) => dec ? v.toFixed(dec) : String(Math.round(v));
+  const run = (el) => {
+    if (el.dataset.done) return;
+    el.dataset.done = '1';
+    const to = parseFloat(el.dataset.to);
+    const dec = parseInt(el.dataset.dec || '0', 10);
+    if (reduce || !to) { el.textContent = fmt(to, dec); return; }
+    const dur = 1400, start = performance.now();
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const tick = now => {
+      const t = Math.min(1, (now - start) / dur);
+      el.textContent = fmt(to * ease(t), dec);
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = fmt(to, dec);
+    };
+    requestAnimationFrame(tick);
+  };
+  const nums = Array.from(document.querySelectorAll('.stat-num'));
+  if (nums.length) {
+    if (typeof IntersectionObserver === 'undefined') {
+      nums.forEach(run);
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
+      }, { threshold: 0.5 });
+      nums.forEach(el => io.observe(el));
+    }
+  }
+
+  // 3. Contact form
+  const form = document.querySelector('.contact-form');
+  if (form) {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      form.querySelectorAll('input, select, textarea').forEach(f => f.disabled = true);
+      const btn = form.querySelector('.cf-submit');
+      const ok = form.querySelector('.cf-success');
+      if (btn) { btn.disabled = true; btn.style.display = 'none'; }
+      if (ok) { ok.hidden = false; ok.style.display = 'flex'; }
+    });
+  }
+
+  // 4. Console carousel
+  const shell = document.querySelector('.console-shell');
+  if (shell) {
+    const screens = [
+      { view: 'fleet',  label: 'Fleet overview' },
+      { view: 'alerts', label: 'Alerts & worklist' },
+      { view: 'vessel', label: 'Vessel detail' },
+    ];
+    const iframe   = shell.querySelector('.console-iframe');
+    const viewport = shell.querySelector('.console-viewport');
+    const dotsWrap = shell.querySelector('.console-dots');
+    const arrows   = Array.from(shell.querySelectorAll('.cnav-arrow'));
+    const playBtn  = shell.querySelector('.cnav-play');
+    const icPause  = shell.querySelector('.ic-pause');
+    const icPlay   = shell.querySelector('.ic-play');
+
+    let idx = 0, timer = null, playing = !reduce, loaded = false;
+
+    const dots = screens.map((s, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-label', s.label);
+      b.style.cssText = 'width:9px;height:9px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.5);background:transparent;padding:0;cursor:pointer;transition:background .2s ease,border-color .2s ease,transform .2s ease;';
+      b.addEventListener('click', () => { go(i); restart(); });
+      dotsWrap.appendChild(b);
+      return b;
+    });
+
+    const post = view => {
+      try { iframe.contentWindow && iframe.contentWindow.postMessage({ dpmView: view }, '*'); } catch (e) {}
+    };
+    const paint = () => {
+      dots.forEach((d, i) => {
+        const on = i === idx;
+        d.style.background = on ? '#12AEBD' : 'transparent';
+        d.style.borderColor = on ? '#12AEBD' : 'rgba(255,255,255,0.5)';
+        d.style.transform = on ? 'scale(1.1)' : 'scale(1)';
+        d.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    };
+    const go = i => {
+      idx = (i + screens.length) % screens.length;
+      if (loaded) post(screens[idx].view);
+      paint();
+    };
+
+    const stopTimer = () => { if (timer) { clearInterval(timer); timer = null; } };
+    const startTimer = () => { if (!playing) return; stopTimer(); timer = setInterval(() => go(idx + 1), 4200); };
+    const restart = () => { stopTimer(); startTimer(); };
+
+    const setPlaying = p => {
+      playing = p;
+      icPause.style.display = p ? '' : 'none';
+      icPlay.style.display  = p ? 'none' : '';
+      playBtn.setAttribute('aria-pressed', p ? 'true' : 'false');
+      playBtn.setAttribute('aria-label', p ? 'Pause auto-advance' : 'Play auto-advance');
+      if (p) startTimer(); else stopTimer();
+    };
+
+    playBtn.addEventListener('click', () => setPlaying(!playing));
+    arrows.forEach(a => a.addEventListener('click', () => { go(idx + parseInt(a.dataset.dir, 10)); restart(); }));
+    arrows.forEach(a => {
+      a.addEventListener('mouseenter', () => { a.style.background = 'rgba(255,255,255,0.1)'; a.style.borderColor = 'rgba(255,255,255,0.28)'; });
+      a.addEventListener('mouseleave', () => { a.style.background = 'rgba(255,255,255,0.04)'; a.style.borderColor = 'rgba(255,255,255,0.14)'; });
+    });
+
+    const BASE_W = 1320;
+    const scaleFit = () => {
+      const w = viewport.clientWidth;
+      if (w > 0) iframe.style.transform = 'scale(' + (w / BASE_W) + ')';
+    };
+    if (typeof ResizeObserver !== 'undefined') new ResizeObserver(scaleFit).observe(viewport);
+    window.addEventListener('resize', scaleFit);
+    scaleFit();
+
+    iframe.addEventListener('load', () => { loaded = true; scaleFit(); post(screens[idx].view); });
+
+    paint();
+    icPause.style.display = playing ? '' : 'none';
+    icPlay.style.display  = playing ? 'none' : '';
+
+    if (typeof IntersectionObserver !== 'undefined') {
+      const cio = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { if (playing) startTimer(); }
+          else stopTimer();
+        });
+      }, { threshold: 0.25 });
+      cio.observe(shell);
+    } else if (playing) {
+      startTimer();
+    }
+  }
+})();
+</script>
+</body>
+</html>

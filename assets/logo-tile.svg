@@ -1,0 +1,5 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DP Metric app tile">
+  <rect width="64" height="64" rx="14" fill="#0A1A2E"></rect>
+  <path d="M16 37 H48 L44.5 43.5 Q43.6 45.5 41.3 45.5 H22.7 Q20.4 45.5 19.5 43.5 Z" stroke="#FFFFFF" stroke-width="2.6" stroke-linejoin="round" fill="none"></path>
+  <polyline points="15,30.5 27,30.5 29.5,30.5 31.5,23.5 34.5,35.5 37,30.5 49,30.5" stroke="#3FC6D2" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"></polyline>
+</svg>
