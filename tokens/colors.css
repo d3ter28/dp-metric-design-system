@@ -1,0 +1,108 @@
+/* DP Metric — Color tokens
+ * Maritime-industrial data platform. Cool, technical, signal-driven.
+ * Base palette (raw values) + semantic aliases below.
+ */
+
+:root {
+  /* ---- Brand: Navy (deep ocean / hull) ---- */
+  --navy-950: #061320;
+  --navy-900: #0A1A2E;
+  --navy-800: #0F2440;
+  --navy-700: #163150;
+  --navy-600: #1E4068;
+  --navy-500: #2A5582;
+
+  /* ---- Accent: Signal Teal (sonar / live telemetry) ---- */
+  --teal-700: #0A7A86;
+  --teal-600: #0C95A3;
+  --teal-500: #12AEBD;   /* primary accent */
+  --teal-400: #3FC6D2;
+  --teal-300: #7FDCE4;
+  --teal-100: #D3F2F5;
+  --teal-50:  #EBF9FB;
+
+  /* ---- Neutrals: cool blue-gray (steel) ---- */
+  --gray-0:   #FFFFFF;
+  --gray-50:  #F4F7FA;
+  --gray-100: #E9EEF3;
+  --gray-200: #D7E0E8;
+  --gray-300: #BDC9D5;
+  --gray-400: #97A6B6;
+  --gray-500: #6F8093;
+  --gray-600: #506072;
+  --gray-700: #394757;
+  --gray-800: #243140;
+  --gray-900: #141E29;
+  --gray-950: #0B131C;
+
+  /* ---- Health semantics (vessel/component condition) ---- */
+  --green-600: #168A5B;
+  --green-500: #1FA56C;   /* Healthy */
+  --green-100: #DCF3E8;
+  --amber-600: #C9820F;
+  --amber-500: #E89C12;   /* Watch / maintenance due */
+  --amber-100: #FBEED1;
+  --red-600:   #C63A3F;
+  --red-500:   #E14B50;   /* Critical / failure risk */
+  --red-100:   #FBE0E1;
+  --blue-600:  #2566D8;
+  --blue-500:  #3479EE;   /* Info */
+  --blue-100:  #DCE9FC;
+
+  /* ============ Semantic aliases ============ */
+
+  /* Surfaces */
+  --surface-page:     var(--gray-50);
+  --surface-card:     var(--gray-0);
+  --surface-sunken:   var(--gray-100);
+  --surface-raised:   var(--gray-0);
+  --surface-inverse:  var(--navy-900);
+  --surface-inverse-2:var(--navy-800);
+  --surface-overlay:  rgba(10, 26, 46, 0.55);
+
+  /* Text */
+  --text-strong:   var(--navy-900);
+  --text-body:     var(--gray-800);
+  --text-muted:    var(--gray-500);
+  --text-subtle:   var(--gray-400);
+  --text-inverse:  var(--gray-0);
+  --text-inverse-muted: rgba(255, 255, 255, 0.64);
+  --text-accent:   var(--teal-700);
+  --text-link:     var(--teal-700);
+
+  /* Borders */
+  --border-subtle: var(--gray-200);
+  --border-default:var(--gray-300);
+  --border-strong: var(--gray-400);
+  --border-inverse:rgba(255, 255, 255, 0.12);
+  --border-accent: var(--teal-500);
+  --focus-ring:    rgba(18, 174, 189, 0.45);
+
+  /* Brand action */
+  --action-primary:        var(--teal-500);
+  --action-primary-hover:  var(--teal-600);
+  --action-primary-press:  var(--teal-700);
+  --action-on-primary:     var(--gray-0);
+  --action-secondary:      var(--navy-800);
+  --action-secondary-hover:var(--navy-700);
+
+  /* Health status aliases */
+  --status-healthy:  var(--green-500);
+  --status-healthy-bg: var(--green-100);
+  --status-watch:    var(--amber-500);
+  --status-watch-bg: var(--amber-100);
+  --status-critical: var(--red-500);
+  --status-critical-bg: var(--red-100);
+  --status-info:     var(--blue-500);
+  --status-info-bg:  var(--blue-100);
+  --status-offline:  var(--gray-400);
+  --status-offline-bg: var(--gray-100);
+
+  /* Data-viz sequence (telemetry lines) */
+  --viz-1: var(--teal-500);
+  --viz-2: var(--blue-500);
+  --viz-3: var(--amber-500);
+  --viz-4: var(--green-500);
+  --viz-5: #8A6FD4;
+  --viz-6: var(--red-500);
+}
